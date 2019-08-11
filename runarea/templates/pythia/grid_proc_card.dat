@@ -1,0 +1,9 @@
+import model {model} --modelname
+generate {process}
+output output
+launch
+shower=Pythia8
+done
+{param_card}
+set nevents {n_events}
+done

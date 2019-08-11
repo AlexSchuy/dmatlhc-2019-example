@@ -1,2 +1,2 @@
-/cards/*
-/reference_outputs/*
+*.hepmc
+*.yoda

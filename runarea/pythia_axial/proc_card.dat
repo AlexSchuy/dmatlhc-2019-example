@@ -1,0 +1,9 @@
+import model DMsimp_s_spin1 --modelname
+generate p p > xd xd~ j
+output output
+launch
+shower=Pythia8
+done
+inputs/pythia_axial/point/param_card.dat
+set nevents 200
+done

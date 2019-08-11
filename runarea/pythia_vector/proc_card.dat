@@ -1,0 +1,9 @@
+import model DM_vector_mediator_UFO --modelname
+generate p p > xm xm~ j
+output output
+launch
+shower=Pythia8
+done
+inputs/pythia_vector/param_card.dat
+set nevents 200
+done

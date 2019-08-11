@@ -1,0 +1,32 @@
+#NEW style parameter reading file
+#Based off configObj python template
+[Run]
+generator ='/unix/cedar/software/sl6/Installations/Herwig-dev-Rivet-dev-jmb/setupEnv.sh'
+contur ='/contur/setupContur.sh'
+
+[Parameters]
+[[mXd]]
+mode = LIN
+start = {dm_lo}
+stop = {dm_hi}
+number = {n_dm}
+[[mY1]]
+mode = LIN
+start = {med_lo}
+stop =  {med_hi}
+number = {n_med}
+[[gVXd]]
+mode = CONST
+value = 0.0
+[[gAXd]]
+mode = CONST
+value = 1.0
+[[gVq]]
+mode = CONST
+value = 0.25
+[[gAq]]
+mode = CONST
+value = 0.0
+[[gVl]]
+mode = CONST
+value = 0.0
