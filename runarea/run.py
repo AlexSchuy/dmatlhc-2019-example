@@ -75,9 +75,10 @@ def run_point(volume, model, shower, n_events):
             contur_module_dir, volume, model)
         proc_card = make_proc_card(volume, model, n_events, param_card)
         subprocess.call(
-            './MG5_aMC_v2_6_6/bin/mg5_aMC {0}'.format(proc_card), shell=True)
+            './MG5_aMC_v2_6_6/bin/mg5_aMC {0} &> {1}/{2}/pythia_{3}/point/mg5.log'.format(proc_card, contur_module_dir, volume, model), shell=True)
         subprocess.call(
             'mv output/Events/run_01/tag_1_pythia8_events.hepmc.gz LHC.hepmc.gz; gunzip -f LHC.hepmc.gz', shell=True)
+        subprocess.call('mv output {0}/{1}/pythia_{2}/point'.format(contur_module_dir, volume, model), shell=True)
     elif shower == 'herwig':
         input_card = '{0}/{1}/herwig_{2}/point/LHC.in'.format(
             contur_module_dir, volume, model)
@@ -94,11 +95,11 @@ def run_point(volume, model, shower, n_events):
         contur_module_dir, volume, shower, model), shell=True)
     subprocess.call('mv LHC.yoda {0}/{1}/{2}_{3}/point'.format(
         contur_module_dir, volume, shower, model), shell=True)
-    subprocess.call('mv -r plots {0}/{1}/{2}_{3}/point'.format(
+    subprocess.call('mv plots {0}/{1}/{2}_{3}/point'.format(
         contur_module_dir, volume, shower, model), shell=True)
-    subprocess.call('mv -r ANALYSIS {0}/{1}/{2}_{3}/point'.format(
+    subprocess.call('mv ANALYSIS {0}/{1}/{2}_{3}/point'.format(
         contur_module_dir, volume, shower, model), shell=True)
-    subprocess.call('mv -r contur-plots {0}/{1}/{2}_{3}/point'.format(
+    subprocess.call('mv contur-plots {0}/{1}/{2}_{3}/point'.format(
         contur_module_dir, volume, shower, model), shell=True)
     subprocess.call('mv contur.log {0}/{1}/{2}_{3}/point'.format(
         contur_module_dir, volume, shower, model), shell=True)
@@ -112,19 +113,27 @@ def run_grid(volume, model, shower, n_events, n_med, n_dm, med_lo, med_hi, dm_lo
         proc_card = make_proc_card(volume, model, n_events, param_card)
         subprocess.call(
             './MG5_aMC_v2_6_6/bin/mg5_aMC {0}'.format(proc_card), shell=True)
+        for i, zipped_events in enumerate(glob.glob('output/Events/*/*.hepmc.gz')):
+            subprocess.call('mkdir runs/run_{0}; mv {1} run_{0}/LHC.hepmc.gz gunzip runs/run_{0}/LHC.hepmc.gz'.format(i, zipped_events), shell=True)
+        subprocess.call('contur {0}'.format(' '.join(glob.glob('runs/*/*.hepmc'))))
+
     elif shower == 'herwig':
         param_file = make_param_file(
             volume, model, n_med, n_dm, med_lo, med_hi, dm_lo, dm_hi)
-        input_card = '{0}/{1}/herwig_{2}/grid'.format(
-            contur_module_dir, volume, shower)
+        input_card = '{0}/{1}/herwig_{2}/grid/LHC.in'.format(
+            contur_module_dir, volume, model)
         subprocess.call('rm -rf myscan00', shell=True)
-        subprocess.call('cp {0} .; cp {1} .; batch-submit -n {2} --seed 101 -s -P'.format(
+        subprocess.call('cp {0} .; cp {1} .; batch-submit -n {2} --seed 101 -s -P -b 13TeV; chmod -R +x myscan00'.format(
             param_file, input_card, n_events), shell=True)
         for run_script in glob.glob('myscan00/13TeV/*/*.sh'):
-            subprocess.call('./{0}'.format(run_script), shell=True)
+            os.system('bash {0}'.format(run_script))
         subprocess.call('contur -g myscan00/', shell=True)
-        subprocess.call('contur-plot myscan00/13TeV/ANALYSIS/contur.map mXd mY1')
-            
+        if model == 'axial':
+            subprocess.call('contur-plot myscan00/13TeV/ANALYSIS/contur.map mXd mY1', shell=True)
+        elif model == 'vector':
+            subprocess.call('contur-plot myscan00/13TeV/ANALYSIS/contur.map mXm mY1', shell=True)
+        subprocess.call('mv conturPlot {0}/{1}/{2}_{3}/grid'.format(
+            contur_module_dir, volume, shower, model), shell=True)
 
 def main():
     parser = argparse.ArgumentParser(description="Run workflow for DM@LHC 2019 tutorial.",

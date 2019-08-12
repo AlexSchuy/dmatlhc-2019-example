@@ -1,0 +1,23 @@
+#NEW style parameter reading file
+#Based off configObj python template
+[Run]
+generator ='/contur/setupContur.sh'
+contur ='/contur/setupContur.sh'
+
+[Parameters]
+[[mXm]]
+mode = LIN
+start = {dm_lo}
+stop = {dm_hi}
+number = {n_dm}
+[[mY1]]
+mode = LIN
+start = {med_lo}
+stop =  {med_hi}
+number = {n_med}
+[[gYq]]
+mode = CONST
+value = 0.25
+[[gYXm]]
+mode = CONST
+value = 1.0

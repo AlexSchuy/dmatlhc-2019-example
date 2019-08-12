@@ -1,2 +1,8 @@
 *.hepmc
 *.yoda
+ANALYSIS
+*.log
+plots
+contur-plots
+conturPlot
+output

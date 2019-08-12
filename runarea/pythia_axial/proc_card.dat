@@ -4,6 +4,6 @@ output output
 launch
 shower=Pythia8
 done
-inputs/pythia_axial/point/param_card.dat
+/contur/volume/pythia_axial/point/param_card.dat
 set nevents 200
 done
