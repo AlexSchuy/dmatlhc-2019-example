@@ -20,7 +20,7 @@ Block ckmblock
 Block dminputs 
     1 0.000000e+00 # gVXc 
     2 1.000000e+00 # gVXd 
-    3 0.000000e+00 # gAXd 
+    3 1.000000e+01 # gAXd 
     4 2.500000e-01 # gVd11 
     5 2.500000e-01 # gVu11 
     6 2.500000e-01 # gVd22 

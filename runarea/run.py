@@ -68,6 +68,7 @@ def make_proc_card(volume, model, n_events, param_card):
     return output_path
 
 
+
 def run_point(volume, model, shower, n_events):
     copy_model(model, shower)
     if shower == 'pythia':
@@ -95,9 +96,15 @@ def run_point(volume, model, shower, n_events):
         contur_module_dir, volume, shower, model), shell=True)
     subprocess.call('mv LHC.yoda {0}/{1}/{2}_{3}/point'.format(
         contur_module_dir, volume, shower, model), shell=True)
+    subprocess.call('rm -rf {0}/{1}/{2}_{3}/point/plots'.format(
+        contur_module_dir, volume, shower, model), shell=True)
     subprocess.call('mv plots {0}/{1}/{2}_{3}/point'.format(
         contur_module_dir, volume, shower, model), shell=True)
+    subprocess.call('rm -rf {0}/{1}/{2}_{3}/point/ANALYSIS'.format(
+        contur_module_dir, volume, shower, model), shell=True)
     subprocess.call('mv ANALYSIS {0}/{1}/{2}_{3}/point'.format(
+        contur_module_dir, volume, shower, model), shell=True)
+    subprocess.call('rm -rf {0}/{1}/{2}_{3}/point/contur-plots'.format(
         contur_module_dir, volume, shower, model), shell=True)
     subprocess.call('mv contur-plots {0}/{1}/{2}_{3}/point'.format(
         contur_module_dir, volume, shower, model), shell=True)

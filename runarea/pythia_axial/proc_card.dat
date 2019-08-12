@@ -5,5 +5,5 @@ launch
 shower=Pythia8
 done
 /contur/volume/pythia_axial/point/param_card.dat
-set nevents 200
+set nevents 10000
 done
